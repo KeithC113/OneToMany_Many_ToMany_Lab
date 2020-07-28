@@ -8,19 +8,20 @@ import com.codeclan.example.FileFolderUser.repository.FolderRepository;
 import com.codeclan.example.FileFolderUser.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class DataLoader {
+public class DataLoader implements ApplicationRunner {
+
+    @Autowired
+    FileRepository fileRepository;
 
     @Autowired
     FolderRepository folderRepository;
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    FileRepository fileRepository;
 
     public DataLoader() {
     }
@@ -41,21 +42,24 @@ public class DataLoader {
         Folder pocketmoney = new Folder("PocketMoney", gregorcampbell);
         folderRepository.save(pocketmoney);
 
-        File housefinances = new File("House Finances", ".doc", 150 );
+        File housefinances = new File("House Finances", ".doc", 150, pocketmoney);
         fileRepository.save(housefinances);
 
-        File budget = new File("Budget", ".xls", 25);
+        File budget = new File("Budget", ".xls", 25, finances);
         fileRepository.save(budget);
 
         finances.addFile(budget);
         finances.addFile(housefinances);
         folderRepository.save(finances);
 
-        budget.addFolder(finances);
-        fileRepository.save(budget);
-
         pocketmoney.addFile(budget);
         folderRepository.save(pocketmoney);
+
+        elliecampbell.addFolders(pocketmoney);
+        elliecampbell.addFolders(finances);
+        userRepository.save(elliecampbell);
+
+
     }
 
 }

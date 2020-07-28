@@ -2,6 +2,7 @@ package com.codeclan.example.FileFolderUser.models;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -26,27 +27,29 @@ public class File{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonBackReference
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name = "folders_files",
-            joinColumns = {@JoinColumn(name = "file_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="folder_id", nullable = false, updatable = false)}
-    )
+    @JsonIgnoreProperties({"files"})
+    @ManyToOne
+    @JoinColumn(name="folder_id", nullable = false)
+    private Folder folder;
 
-    private List<Folder> folders;
-
-    public File(String name, String extension, int size) {
+    public File(String name, String extension, int size, Folder folder) {
         this.name = name;
         this.extension = extension;
         this.size = size;
-        this.folders = new ArrayList<Folder>();
+        this.folder = folder;
     }
 
     public File(){
 
     }
+
+    public Long getId() { return id; }
+
+    public void setId(Long id) { this.id = id; }
+
+    public Folder getFolder() { return folder; }
+
+    public void setFolder(Folder folder) { this.folder = folder; }
 
     public String getName() {
         return name;
@@ -72,13 +75,5 @@ public class File{
         this.size = size;
     }
 
-    public List<Folder> getFolders(){
-        return folders;
-    }
-
-    public void setFolders(List<Folder> folders){
-        this.folders = folders;
-    }
-    public void addFolder(Folder folder) {this.folders.add(folder);}
 
 }

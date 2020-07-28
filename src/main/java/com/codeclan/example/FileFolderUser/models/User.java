@@ -19,14 +19,14 @@ public class User {
     @Column(name="name")
     private String name;
 
-    @JsonBackReference
+    @JsonIgnoreProperties({"user"})
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Folder> folders;
 
     public User(String name) {
         this.id = id;
         this.name = name;
-        this.folders = new ArrayList<Folder>();
+        this.folders = new ArrayList<>();
     }
 
     public User(){
@@ -54,5 +54,9 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void addFolders(Folder folder){
+        this.folders.add(folder);
     }
 }

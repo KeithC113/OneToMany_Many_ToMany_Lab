@@ -12,28 +12,23 @@ import java.util.List;
 @Table(name = "folders")
 public class Folder {
 
-    @Column(name="title")
-    private String title;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @Column(name="title")
+    private String title;
+
+    @OneToMany(mappedBy = "folder")
+    @JsonIgnoreProperties({"folder"})
+    @Column(name="file_id", nullable = false)
+    private List<File> files;
+
     @JsonIgnoreProperties({"folders"})
+    @ManyToOne
     @JoinColumn(name="user_id", nullable = false)
     private User user;
 
-    @JsonIgnoreProperties({"folders"})
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name="folders_files",
-            joinColumns = {@JoinColumn(name = "folders_id", nullable = false)},
-            inverseJoinColumns = {@JoinColumn(name="file_id", nullable = false)}
-    )
-
-    private List<File> files;
 
     public Folder(String title, User user){
         this.title = title;

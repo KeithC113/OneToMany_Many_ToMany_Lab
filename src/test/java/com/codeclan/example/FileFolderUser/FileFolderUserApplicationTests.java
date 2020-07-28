@@ -29,27 +29,27 @@ class FileFolderUserApplicationTests {
 	void contextLoads() {
 	}
 
-	@Test
-	public void createUserAndFolderThenSave(){
-		User keithcampbell = new User("Keith Campbell");
-		userRepository.save(keithcampbell);
-		Folder temp = new Folder("House Finances", keithcampbell);
-		folderRepository.save(temp);
-	}
-
-	@Test
-	public void createFolderAndFileThenSave(){
-		User keithcampbell = new User("Keith Campbell");
-		userRepository.save(keithcampbell);
-
-		Folder tempfiles = new Folder("TempFiles", keithcampbell);
-		folderRepository.save(tempfiles);
-
-		File testfile = new File("Temp", ".txt", 125);
-		fileRepository.save(testfile);
-
-		tempfiles.addFile(testfile);
-		testfile.addFolder(tempfiles);
+//	@Test
+//	public void createUserAndFolderThenSave(){
+//		User keithcampbell = new User("Keith Campbell");
+//		userRepository.save(keithcampbell);
+//		Folder temp = new Folder("House Finances", keithcampbell);
+//		folderRepository.save(temp);
+//	}
+//
+//	@Test
+//	public void createFolderAndFileThenSave(){
+//		User keithcampbell = new User("Keith Campbell");
+//		userRepository.save(keithcampbell);
+//
+//		Folder tempfiles = new Folder("TempFiles", keithcampbell);
+//		folderRepository.save(tempfiles);
+//
+//		File testfile = new File("Temp", ".txt", 125);
 //		fileRepository.save(testfile);
-	}
+//
+//		tempfiles.addFile(testfile);
+//		testfile.addFolder(tempfiles);
+////		fileRepository.save(testfile);
+//	}
 }
